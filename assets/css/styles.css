@@ -5,6 +5,7 @@
 :root {
   --header-height: 3.5rem;
 
+  
   /*========== Colors ==========*/
   /*Color mode HSL(hue, saturation, lightness)*/
   --first-color: hsl(14, 98%, 50%);

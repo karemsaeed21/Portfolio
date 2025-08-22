@@ -1534,55 +1534,80 @@ body.dark-theme{
 /*=============== SKILLS ===============*/
 .skills__title {
     font-size: var(--h3-font-size);
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
     text-align: center;
 }
 
 .skills__container {
     display: grid;
-    gap: 1rem;
+    gap: 1.25rem;
     margin-bottom: 0;
 }
 
 .skills__group {
     background-color: var(--container-color);
-    padding: 1rem;
+    padding: 1.25rem 1.25rem 1rem;
     border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    border: 4px solid var(--black-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, background-color 0.4s, border-color 0.4s;
+    position: relative;
+}
+
+.skills__group::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 4px solid var(--first-color);
+    transform: translate(0.5rem, 0.5rem);
     transition: transform 0.3s ease;
+    pointer-events: none;
 }
 
 .skills__group:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+}
+
+.skills__group:hover::after {
+    transform: translate(0.75rem, 0.75rem);
 }
 
 .skills__subtitle {
-    font-size: var(--normal-font-size);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--h3-font-size);
     font-weight: var(--font-semi-bold);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     color: var(--title-color);
+}
+
+.skills__subtitle i {
+    color: var(--first-color);
 }
 
 .skills__grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 0.75rem;
 }
 
 .skills__item {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.5rem;
     padding: 0.5rem 0.75rem;
     background-color: var(--body-color);
-    border-radius: 0.25rem;
-    transition: background-color 0.3s ease;
+    border: 2px solid var(--black-color);
+    border-radius: 999px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
     font-size: var(--smaller-font-size);
 }
 
 .skills__item:hover {
     background-color: var(--first-color);
     color: var(--white-color);
+    transform: translateY(-2px);
 }
 
 .skills__item i {
@@ -1594,30 +1619,21 @@ body.dark-theme{
     font-weight: var(--font-medium);
 }
 
+/* Responsive layout for skills */
 @media screen and (max-width: 600px) {
     .skills__container {
         grid-template-columns: 1fr;
-        gap: 0.5rem;
+        gap: 0.75rem;
     }
     .skills__group {
-        padding: 0.75rem;
-    }
-    .skills__title {
-        font-size: 1rem;
+        padding: 1rem;
     }
     .skills__subtitle {
-        font-size: 0.9rem;
-    }
-    .skills__item {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.5rem;
-    }
-    .skills__item i {
-        font-size: 0.9rem;
+        font-size: var(--normal-font-size);
     }
     .skills__grid {
         grid-template-columns: 1fr;
-        gap: 0.3rem;
+        gap: 0.4rem;
     }
 }
 
@@ -1637,4 +1653,59 @@ body.dark-theme{
     .skills__grid {
         grid-template-columns: 1fr;
     }
+}
+
+/*======= SKILLS TABS LAYOUT =======*/
+.skills {
+  display: grid;
+  gap: 1rem;
+}
+
+.skills input[type="radio"] {
+  display: none;
+}
+
+.skills__tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .5rem;
+}
+
+.skills__tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .75rem 1rem;
+  background-color: var(--body-color);
+  border: 3px solid var(--black-color);
+  color: var(--title-color);
+  font-weight: var(--font-semi-bold);
+  cursor: pointer;
+  transition: background-color .3s, color .3s, transform .2s;
+}
+
+.skills__tab i { color: var(--first-color); }
+
+/* Active tab states via radio */
+#skills-tab-1:checked ~ .skills__tabs label[for="skills-tab-1"],
+#skills-tab-2:checked ~ .skills__tabs label[for="skills-tab-2"],
+#skills-tab-3:checked ~ .skills__tabs label[for="skills-tab-3"] {
+  background-color: var(--black-color);
+  color: var(--white-color);
+}
+
+.skills__panels { position: relative; }
+
+.skills__panel { display: none; }
+
+#skills-tab-1:checked ~ .skills__panels .skills__panel-1,
+#skills-tab-2:checked ~ .skills__panels .skills__panel-2,
+#skills-tab-3:checked ~ .skills__panels .skills__panel-3 {
+  display: block;
+}
+
+/* Responsive tabs */
+@media screen and (max-width: 600px) {
+  .skills__tabs { grid-template-columns: 1fr; }
 }

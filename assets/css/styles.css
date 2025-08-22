@@ -375,7 +375,11 @@ body.dark-theme{
 
 /*=============== HOME ===============*/
 #home{
+    /* background-image: url('../img/herobg-hd@2x.webp'); */
     background-size: cover;
+    /* background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; */
 }
 .home__container{
   padding-top: 2rem;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 export type Category = 'AI/ML' | 'Software' | 'Web' | 'App';
 
@@ -22,6 +23,9 @@ interface GridItem {
 }
 
 export const ProjectsSection: React.FC = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   const [activeFilter, setActiveFilter] = useState<'All' | Category>('All');
 
   const projects: Project[] = [
@@ -85,7 +89,6 @@ export const ProjectsSection: React.FC = () => {
       : projects.filter((p) => getCategories(p).includes(activeFilter));
 
   const buildGridItems = (items: Project[]): GridItem[] => {
-    // When filtering by specific category or if no featured item exists, just render linearly
     if (activeFilter !== 'All') {
       return items.map((p) => ({
         project: p,
@@ -133,16 +136,28 @@ export const ProjectsSection: React.FC = () => {
 
   return (
     <section id="projects" className="relative z-10 w-full py-20 px-5 sm:px-8 md:px-12">
-      <div className="max-w-6xl mx-auto bg-black/75 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 sm:p-12 md:p-16 shadow-2xl text-white">
+      <div
+        className={`max-w-6xl mx-auto backdrop-blur-2xl rounded-3xl p-8 sm:p-12 md:p-16 shadow-2xl transition-all duration-300 ${
+          isDark
+            ? 'bg-black/75 border border-white/10 text-white'
+            : 'bg-white/85 border border-black/10 text-slate-900 shadow-xl'
+        }`}
+      >
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-xs uppercase tracking-widest font-mono text-white/70 bg-white/10 px-3 py-1 rounded-full border border-white/15">
+              <span
+                className={`text-xs uppercase tracking-widest font-mono px-3 py-1 rounded-full border ${
+                  isDark
+                    ? 'text-white/70 bg-white/10 border-white/15'
+                    : 'text-slate-700 bg-slate-900/10 border-slate-900/15'
+                }`}
+              >
                 04 // PROJECTS
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading tracking-tight text-white">
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-heading tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Selected Projects
             </h2>
           </div>
@@ -155,8 +170,12 @@ export const ProjectsSection: React.FC = () => {
                 onClick={() => setActiveFilter(filter)}
                 className={`text-xs sm:text-sm px-4 py-2 rounded-full font-medium transition-all duration-200 cursor-pointer border ${
                   activeFilter === filter
-                    ? 'bg-white text-black border-white shadow-sm'
-                    : 'bg-white/5 text-white/80 border-white/10 hover:bg-white/15'
+                    ? isDark
+                      ? 'bg-white text-black border-white shadow-sm'
+                      : 'bg-slate-900 text-white border-slate-900 shadow-sm'
+                    : isDark
+                    ? 'bg-white/5 text-white/80 border-white/10 hover:bg-white/15'
+                    : 'bg-slate-900/5 text-slate-700 border-slate-900/10 hover:bg-slate-900/15'
                 }`}
               >
                 {filter}
@@ -177,7 +196,11 @@ export const ProjectsSection: React.FC = () => {
               return (
                 <div
                   key={project.id}
-                  className={`${spanClass} group bg-white/5 border border-white/15 hover:border-white/40 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 flex flex-col md:flex-row`}
+                  className={`${spanClass} group rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col md:flex-row border ${
+                    isDark
+                      ? 'bg-white/5 border-white/15 hover:border-white/40 hover:bg-white/10'
+                      : 'bg-slate-900/5 border-slate-900/15 hover:border-slate-900/30 hover:bg-slate-900/10'
+                  }`}
                 >
                   {/* Image Container */}
                   <div className="relative md:w-7/12 h-64 md:h-auto overflow-hidden bg-neutral-900 shrink-0">
@@ -190,7 +213,9 @@ export const ProjectsSection: React.FC = () => {
                       }}
                     />
                     <div className="absolute top-3 left-3 flex gap-2">
-                      <span className="bg-white text-black font-mono text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded-full shadow-md">
+                      <span className={`font-mono text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded-full shadow-md ${
+                        isDark ? 'bg-white text-black' : 'bg-slate-900 text-white'
+                      }`}>
                         ★ Featured
                       </span>
                     </div>
@@ -211,10 +236,12 @@ export const ProjectsSection: React.FC = () => {
                   {/* Body Container */}
                   <div className="p-6 sm:p-8 md:w-5/12 flex flex-col justify-between">
                     <div>
-                      <h3 className="text-2xl sm:text-3xl font-heading font-semibold text-white mb-3 group-hover:text-white transition-colors">
+                      <h3 className={`text-2xl sm:text-3xl font-heading font-semibold mb-3 transition-colors ${
+                        isDark ? 'text-white group-hover:text-white' : 'text-slate-900 group-hover:text-slate-900'
+                      }`}>
                         {project.title}
                       </h3>
-                      <p className="text-white/80 text-sm leading-relaxed mb-6 font-normal">
+                      <p className={`text-sm leading-relaxed mb-6 font-normal ${isDark ? 'text-white/80' : 'text-slate-700'}`}>
                         {project.description}
                       </p>
 
@@ -224,7 +251,9 @@ export const ProjectsSection: React.FC = () => {
                           {project.tags.map((tag, tIdx) => (
                             <span
                               key={tIdx}
-                              className="text-[11px] font-mono bg-white/10 text-white/80 px-2.5 py-1 rounded-md border border-white/10"
+                              className={`text-[11px] font-mono px-2.5 py-1 rounded-md border ${
+                                isDark ? 'bg-white/10 text-white/80 border-white/10' : 'bg-slate-900/10 text-slate-800 border-slate-900/10'
+                              }`}
                             >
                               {tag}
                             </span>
@@ -234,12 +263,14 @@ export const ProjectsSection: React.FC = () => {
                     </div>
 
                     {/* Card Links */}
-                    <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                    <div className={`flex items-center justify-between pt-4 border-t ${isDark ? 'border-white/10' : 'border-slate-900/10'}`}>
                       <a
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center text-xs sm:text-sm font-semibold text-white group-hover:underline underline-offset-4"
+                        className={`inline-flex items-center text-xs sm:text-sm font-semibold group-hover:underline underline-offset-4 ${
+                          isDark ? 'text-white' : 'text-slate-900'
+                        }`}
                       >
                         View Project
                         <svg className="w-4 h-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -250,7 +281,9 @@ export const ProjectsSection: React.FC = () => {
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center text-xs text-white/60 hover:text-white transition-colors font-mono"
+                        className={`inline-flex items-center text-xs transition-colors font-mono ${
+                          isDark ? 'text-white/60 hover:text-white' : 'text-slate-500 hover:text-slate-900'
+                        }`}
                       >
                         GitHub Code
                       </a>
@@ -263,7 +296,11 @@ export const ProjectsSection: React.FC = () => {
             return (
               <div
                 key={project.id}
-                className="group bg-white/5 border border-white/10 hover:border-white/30 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 hover:bg-white/10"
+                className={`group rounded-2xl overflow-hidden shadow-lg transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 border ${
+                  isDark
+                    ? 'bg-white/5 border-white/10 hover:border-white/30 hover:bg-white/10'
+                    : 'bg-slate-900/5 border-slate-900/10 hover:border-slate-900/30 hover:bg-slate-900/10 shadow-sm'
+                }`}
               >
                 {/* Image Container */}
                 <div className="relative h-56 overflow-hidden bg-neutral-900">
@@ -291,10 +328,12 @@ export const ProjectsSection: React.FC = () => {
                 {/* Card Body */}
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="text-xl font-heading font-semibold text-white mb-2 group-hover:text-white/90 transition-colors">
+                    <h3 className={`text-xl font-heading font-semibold mb-2 transition-colors ${
+                      isDark ? 'text-white group-hover:text-white/90' : 'text-slate-900 group-hover:text-slate-900'
+                    }`}>
                       {project.title}
                     </h3>
-                    <p className="text-white/75 text-sm leading-relaxed mb-6 font-normal">
+                    <p className={`text-sm leading-relaxed mb-6 font-normal ${isDark ? 'text-white/75' : 'text-slate-700'}`}>
                       {project.description}
                     </p>
 
@@ -304,7 +343,9 @@ export const ProjectsSection: React.FC = () => {
                         {project.tags.map((tag, tIdx) => (
                           <span
                             key={tIdx}
-                            className="text-[10px] font-mono bg-white/5 text-white/70 px-2 py-0.5 rounded border border-white/5"
+                            className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                              isDark ? 'bg-white/5 text-white/70 border-white/5' : 'bg-slate-900/5 text-slate-700 border-slate-900/5'
+                            }`}
                           >
                             {tag}
                           </span>
@@ -314,12 +355,14 @@ export const ProjectsSection: React.FC = () => {
                   </div>
 
                   {/* Card Links */}
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                  <div className={`flex items-center justify-between pt-4 border-t ${isDark ? 'border-white/10' : 'border-slate-900/10'}`}>
                     <a
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center text-xs font-semibold text-white hover:opacity-75 transition-opacity"
+                      className={`inline-flex items-center text-xs font-semibold hover:opacity-75 transition-opacity ${
+                        isDark ? 'text-white' : 'text-slate-900'
+                      }`}
                     >
                       View Project
                       <svg className="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -330,7 +373,9 @@ export const ProjectsSection: React.FC = () => {
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center text-xs text-white/50 hover:text-white transition-colors font-mono"
+                      className={`inline-flex items-center text-xs transition-colors font-mono ${
+                        isDark ? 'text-white/50 hover:text-white' : 'text-slate-500 hover:text-slate-900'
+                      }`}
                     >
                       GitHub Code
                     </a>

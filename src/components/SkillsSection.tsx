@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 interface SkillCategory {
   title: string;
@@ -7,6 +8,9 @@ interface SkillCategory {
 }
 
 export const SkillsSection: React.FC = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   const categories: SkillCategory[] = [
     {
       title: 'AI & Machine Learning',
@@ -90,15 +94,27 @@ export const SkillsSection: React.FC = () => {
 
   return (
     <section id="skills" className="relative z-10 w-full py-20 px-5 sm:px-8 md:px-12">
-      <div className="max-w-6xl mx-auto bg-black/75 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 sm:p-12 md:p-16 shadow-2xl text-white">
+      <div
+        className={`max-w-6xl mx-auto backdrop-blur-2xl rounded-3xl p-8 sm:p-12 md:p-16 shadow-2xl transition-all duration-300 ${
+          isDark
+            ? 'bg-black/75 border border-white/10 text-white'
+            : 'bg-white/85 border border-black/10 text-slate-900 shadow-xl'
+        }`}
+      >
         {/* Section Header */}
         <div className="flex flex-col mb-12">
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-xs uppercase tracking-widest font-mono text-white/70 bg-white/10 px-3 py-1 rounded-full border border-white/15">
+            <span
+              className={`text-xs uppercase tracking-widest font-mono px-3 py-1 rounded-full border ${
+                isDark
+                  ? 'text-white/70 bg-white/10 border-white/15'
+                  : 'text-slate-700 bg-slate-900/10 border-slate-900/15'
+              }`}
+            >
               02 // SKILLS & TECH
             </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading tracking-tight text-white">
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-heading tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
             My Technical Toolkit
           </h2>
         </div>
@@ -108,13 +124,21 @@ export const SkillsSection: React.FC = () => {
           {categories.map((category, idx) => (
             <div
               key={idx}
-              className="group relative bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300 shadow-lg"
+              className={`group relative rounded-2xl p-6 sm:p-8 transition-all duration-300 border ${
+                isDark
+                  ? 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
+                  : 'bg-slate-900/5 border-slate-900/10 hover:bg-slate-900/10 hover:border-slate-900/20 shadow-sm'
+              }`}
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-white/10 rounded-xl text-white group-hover:scale-110 transition-transform duration-300">
+                <div
+                  className={`p-3 rounded-xl group-hover:scale-110 transition-transform duration-300 ${
+                    isDark ? 'bg-white/10 text-white' : 'bg-slate-900/10 text-slate-900'
+                  }`}
+                >
                   {category.icon}
                 </div>
-                <h3 className="text-xl sm:text-2xl font-heading font-semibold text-white">
+                <h3 className={`text-xl sm:text-2xl font-heading font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   {category.title}
                 </h3>
               </div>
@@ -123,7 +147,11 @@ export const SkillsSection: React.FC = () => {
                 {category.skills.map((skill, sIdx) => (
                   <span
                     key={sIdx}
-                    className="bg-white/5 group-hover:bg-white/10 text-white/95 text-sm px-4 py-2 rounded-full border border-white/5 hover:border-white/20 transition-all duration-200 cursor-default"
+                    className={`text-sm px-4 py-2 rounded-full border transition-all duration-200 cursor-default ${
+                      isDark
+                        ? 'bg-white/5 group-hover:bg-white/10 text-white/95 border-white/5 hover:border-white/20'
+                        : 'bg-slate-900/5 group-hover:bg-slate-900/10 text-slate-800 border-slate-900/5 hover:border-slate-900/20'
+                    }`}
                   >
                     {skill}
                   </span>

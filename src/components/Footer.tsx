@@ -1,6 +1,10 @@
 import React from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 export const Footer: React.FC = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -16,10 +20,18 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="relative z-10 w-full py-12 px-5 sm:px-8 md:px-12 bg-black/85 backdrop-blur-xl border-t border-white/10 text-white">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-white/60">
+    <footer
+      className={`relative z-10 w-full py-12 px-5 sm:px-8 md:px-12 backdrop-blur-xl border-t transition-all duration-300 ${
+        isDark
+          ? 'bg-black/85 border-white/10 text-white'
+          : 'bg-white/85 border-black/10 text-slate-900 shadow-lg'
+      }`}
+    >
+      <div className={`max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs ${
+        isDark ? 'text-white/60' : 'text-slate-600'
+      }`}>
         <div className="flex items-center gap-2">
-          <span className="font-heading text-sm text-white font-semibold">KAREEM®</span>
+          <span className={`font-heading text-sm font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>KAREEM®</span>
           <span>— All Rights Reserved © {new Date().getFullYear()}</span>
         </div>
 
@@ -27,49 +39,49 @@ export const Footer: React.FC = () => {
           <a
             href="#about"
             onClick={(e) => scrollToSection(e, 'about')}
-            className="hover:text-white transition-colors"
+            className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-slate-900'}`}
           >
             About
           </a>
           <a
             href="#skills"
             onClick={(e) => scrollToSection(e, 'skills')}
-            className="hover:text-white transition-colors"
+            className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-slate-900'}`}
           >
             Skills
           </a>
           <a
             href="#capabilities"
             onClick={(e) => scrollToSection(e, 'capabilities')}
-            className="hover:text-white transition-colors"
+            className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-slate-900'}`}
           >
             Capabilities
           </a>
           <a
             href="#projects"
             onClick={(e) => scrollToSection(e, 'projects')}
-            className="hover:text-white transition-colors"
+            className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-slate-900'}`}
           >
             Projects
           </a>
           <a
             href="#articles"
             onClick={(e) => scrollToSection(e, 'articles')}
-            className="hover:text-white transition-colors"
+            className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-slate-900'}`}
           >
             Articles
           </a>
           <a
             href="#experience"
             onClick={(e) => scrollToSection(e, 'experience')}
-            className="hover:text-white transition-colors"
+            className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-slate-900'}`}
           >
             Experience
           </a>
           <a
             href="#contact"
             onClick={(e) => scrollToSection(e, 'contact')}
-            className="hover:text-white transition-colors"
+            className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-slate-900'}`}
           >
             Contact
           </a>
@@ -77,7 +89,9 @@ export const Footer: React.FC = () => {
 
         <button
           onClick={scrollToTop}
-          className="inline-flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer font-mono"
+          className={`inline-flex items-center gap-1.5 transition-colors cursor-pointer font-mono ${
+            isDark ? 'hover:text-white' : 'hover:text-slate-900'
+          }`}
         >
           <span>Back to top</span>
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -1,4 +1,5 @@
 import React from 'react';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { BackgroundVideo } from './components/BackgroundVideo';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
@@ -11,9 +12,15 @@ import { ExperienceSection } from './components/ExperienceSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 
-export const App: React.FC = () => {
+const AppContent: React.FC = () => {
+  const { theme } = useTheme();
+
   return (
-    <main className="relative min-h-screen w-full bg-black text-black overflow-x-hidden">
+    <main
+      className={`relative min-h-screen w-full overflow-x-hidden transition-colors duration-500 ${
+        theme === 'dark' ? 'bg-black text-white' : 'bg-slate-100 text-slate-900'
+      }`}
+    >
       <BackgroundVideo />
       <Navbar />
       <HeroSection />
@@ -26,6 +33,14 @@ export const App: React.FC = () => {
       <ContactSection />
       <Footer />
     </main>
+  );
+};
+
+export const App: React.FC = () => {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 };
 

@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 export const ContactSection: React.FC = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -55,7 +59,7 @@ export const ContactSection: React.FC = () => {
     {
       name: 'GitHub',
       label: 'GitHub',
-      url: 'https://github.com/',
+      url: 'https://github.com/karemsaeed21',
       icon: (
         <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
           <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
@@ -65,7 +69,7 @@ export const ContactSection: React.FC = () => {
     {
       name: 'LinkedIn',
       label: 'LinkedIn',
-      url: 'https://www.linkedin.com/',
+      url: 'https://www.linkedin.com/in/kareem-mohamed-4ac',
       icon: (
         <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
           <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.78a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
@@ -75,7 +79,7 @@ export const ContactSection: React.FC = () => {
     {
       name: 'Medium',
       label: 'Medium',
-      url: 'https://medium.com/',
+      url: 'https://medium.com/@karemsaeed2468',
       icon: (
         <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
           <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42c1.87 0 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
@@ -86,22 +90,34 @@ export const ContactSection: React.FC = () => {
 
   return (
     <section id="contact" className="relative z-10 w-full py-20 px-5 sm:px-8 md:px-12">
-      <div className="max-w-6xl mx-auto bg-black/75 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 sm:p-12 md:p-16 shadow-2xl text-white">
+      <div
+        className={`max-w-6xl mx-auto backdrop-blur-2xl rounded-3xl p-8 sm:p-12 md:p-16 shadow-2xl transition-all duration-300 ${
+          isDark
+            ? 'bg-black/75 border border-white/10 text-white'
+            : 'bg-white/85 border border-black/10 text-slate-900 shadow-xl'
+        }`}
+      >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Left Info Column */}
           <div className="lg:col-span-5 flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-xs uppercase tracking-widest font-mono text-white/70 bg-white/10 px-3 py-1 rounded-full border border-white/15">
+                <span
+                  className={`text-xs uppercase tracking-widest font-mono px-3 py-1 rounded-full border ${
+                    isDark
+                      ? 'text-white/70 bg-white/10 border-white/15'
+                      : 'text-slate-700 bg-slate-900/10 border-slate-900/15'
+                  }`}
+                >
                   07 // GET IN TOUCH
                 </span>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading tracking-tight text-white mb-6">
+              <h2 className={`text-3xl sm:text-4xl md:text-5xl font-heading tracking-tight mb-6 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Let's build something great together.
               </h2>
 
-              <p className="text-white/80 text-base sm:text-lg font-normal leading-relaxed mb-6">
+              <p className={`text-base sm:text-lg font-normal leading-relaxed mb-6 ${isDark ? 'text-white/80' : 'text-slate-700'}`}>
                 Whether you have a project idea, want to collaborate, or simply want to connect, feel free to reach out. I'm always open to interesting ideas and conversations around AI, software, and technology.
               </p>
 
@@ -110,7 +126,11 @@ export const ContactSection: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="inline-flex items-center gap-3 text-white bg-white/5 border border-white/20 hover:border-white rounded-full text-sm px-5 py-2.5 transition-colors duration-200 cursor-pointer group"
+                  className={`inline-flex items-center gap-3 rounded-full text-sm px-5 py-2.5 transition-colors duration-200 cursor-pointer border group ${
+                    isDark
+                      ? 'text-white bg-white/5 border-white/20 hover:border-white'
+                      : 'text-slate-900 bg-slate-900/5 border-slate-900/20 hover:border-slate-900'
+                  }`}
                 >
                   <span>
                     {copied ? 'Copied to clipboard!' : (
@@ -127,7 +147,7 @@ export const ContactSection: React.FC = () => {
                       viewBox="0 0 12 12"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
-                      className="shrink-0 stroke-current text-white group-hover:text-white"
+                      className={`shrink-0 stroke-current ${isDark ? 'text-white' : 'text-slate-900'}`}
                     >
                       <rect x="1.5" y="3.5" width="7" height="7" rx="1" strokeWidth="1.2" />
                       <path
@@ -142,7 +162,7 @@ export const ContactSection: React.FC = () => {
 
             {/* Social Networks Section */}
             <div>
-              <h3 className="text-xs uppercase font-mono tracking-wider text-white/50 mb-4">
+              <h3 className={`text-xs uppercase font-mono tracking-wider mb-4 ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
                 Connect on Social Platforms
               </h3>
               <div className="flex flex-wrap gap-3">
@@ -152,7 +172,11 @@ export const ContactSection: React.FC = () => {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white hover:text-black text-white text-xs font-mono transition-all duration-200 hover:scale-105 shadow-sm"
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-mono transition-all duration-200 hover:scale-105 shadow-sm ${
+                      isDark
+                        ? 'border-white/20 bg-white/5 text-white hover:bg-white hover:text-black'
+                        : 'border-slate-900/20 bg-slate-900/5 text-slate-900 hover:bg-slate-900 hover:text-white'
+                    }`}
                   >
                     {social.icon}
                     <span>{social.label}</span>
@@ -166,21 +190,25 @@ export const ContactSection: React.FC = () => {
           <div className="lg:col-span-7">
             <form
               onSubmit={handleSubmit}
-              className="bg-white/5 border border-white/10 p-8 sm:p-10 rounded-2xl space-y-6"
+              className={`p-8 sm:p-10 rounded-2xl space-y-6 border ${
+                isDark ? 'bg-white/5 border-white/10' : 'bg-slate-900/5 border-slate-900/10 shadow-sm'
+              }`}
             >
-              <h3 className="text-xl font-heading font-semibold text-white mb-2">
+              <h3 className={`text-xl font-heading font-semibold mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Send A Message
               </h3>
 
               {statusMessage && (
-                <div className="p-4 rounded-xl text-sm font-medium bg-white/10 text-white border border-white/20">
+                <div className={`p-4 rounded-xl text-sm font-medium border ${
+                  isDark ? 'bg-white/10 text-white border-white/20' : 'bg-slate-900/10 text-slate-900 border-slate-900/20'
+                }`}>
                   {statusMessage}
                 </div>
               )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs uppercase font-mono text-white/60 mb-2">
+                  <label className={`block text-xs uppercase font-mono mb-2 ${isDark ? 'text-white/60' : 'text-slate-600'}`}>
                     First & Last Name *
                   </label>
                   <input
@@ -190,12 +218,16 @@ export const ContactSection: React.FC = () => {
                     onChange={handleChange}
                     placeholder="e.g. Alex Morgan"
                     required
-                    className="w-full bg-black/60 border border-white/20 focus:border-white rounded-xl px-4 py-3 text-white text-sm focus:outline-none transition-colors"
+                    className={`w-full rounded-xl px-4 py-3 text-sm focus:outline-none transition-colors border ${
+                      isDark
+                        ? 'bg-black/60 border-white/20 text-white focus:border-white'
+                        : 'bg-white border-slate-300 text-slate-900 focus:border-slate-900'
+                    }`}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase font-mono text-white/60 mb-2">
+                  <label className={`block text-xs uppercase font-mono mb-2 ${isDark ? 'text-white/60' : 'text-slate-600'}`}>
                     Email Address *
                   </label>
                   <input
@@ -205,13 +237,17 @@ export const ContactSection: React.FC = () => {
                     onChange={handleChange}
                     placeholder="alex@example.com"
                     required
-                    className="w-full bg-black/60 border border-white/20 focus:border-white rounded-xl px-4 py-3 text-white text-sm focus:outline-none transition-colors"
+                    className={`w-full rounded-xl px-4 py-3 text-sm focus:outline-none transition-colors border ${
+                      isDark
+                        ? 'bg-black/60 border-white/20 text-white focus:border-white'
+                        : 'bg-white border-slate-300 text-slate-900 focus:border-slate-900'
+                    }`}
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs uppercase font-mono text-white/60 mb-2">
+                <label className={`block text-xs uppercase font-mono mb-2 ${isDark ? 'text-white/60' : 'text-slate-600'}`}>
                   Subject
                 </label>
                 <input
@@ -220,12 +256,16 @@ export const ContactSection: React.FC = () => {
                   value={formData.subject}
                   onChange={handleChange}
                   placeholder="New project inquiry / Studio discussion"
-                  className="w-full bg-black/60 border border-white/20 focus:border-white rounded-xl px-4 py-3 text-white text-sm focus:outline-none transition-colors"
+                  className={`w-full rounded-xl px-4 py-3 text-sm focus:outline-none transition-colors border ${
+                    isDark
+                      ? 'bg-black/60 border-white/20 text-white focus:border-white'
+                      : 'bg-white border-slate-300 text-slate-900 focus:border-slate-900'
+                  }`}
                 />
               </div>
 
               <div>
-                <label className="block text-xs uppercase font-mono text-white/60 mb-2">
+                <label className={`block text-xs uppercase font-mono mb-2 ${isDark ? 'text-white/60' : 'text-slate-600'}`}>
                   Your Message *
                 </label>
                 <textarea
@@ -235,13 +275,21 @@ export const ContactSection: React.FC = () => {
                   rows={4}
                   placeholder="Describe your project ideas, questions, or specs..."
                   required
-                  className="w-full bg-black/60 border border-white/20 focus:border-white rounded-xl px-4 py-3 text-white text-sm focus:outline-none transition-colors resize-none"
+                  className={`w-full rounded-xl px-4 py-3 text-sm focus:outline-none transition-colors resize-none border ${
+                    isDark
+                      ? 'bg-black/60 border-white/20 text-white focus:border-white'
+                      : 'bg-white border-slate-300 text-slate-900 focus:border-slate-900'
+                  }`}
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-white text-black hover:bg-white/90 font-medium py-3.5 px-6 rounded-xl transition-all duration-200 text-sm cursor-pointer shadow-lg"
+                className={`w-full font-medium py-3.5 px-6 rounded-xl transition-all duration-200 text-sm cursor-pointer shadow-lg ${
+                  isDark
+                    ? 'bg-white text-black hover:bg-white/90'
+                    : 'bg-slate-900 text-white hover:bg-slate-800'
+                }`}
               >
                 Send Message
               </button>

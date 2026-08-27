@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-heading: 'HelveticaNowDisplay-Medium', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'HelveticaNowDisplayW01-Rg', 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: #000000;
+  color: #000000;
+}
+
+/* Global High-Contrast Text Selection Rules */
+::selection {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+::-moz-selection {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Dark Container Text Selection */
+#studio ::selection,
+#contact ::selection,
+#shop ::selection,
+#labs ::selection,
+#skills ::selection {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+#studio ::-moz-selection,
+#contact ::-moz-selection,
+#shop ::-moz-selection,
+#labs ::-moz-selection,
+#skills ::-moz-selection {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+/* Custom Ultra-Smooth Easing for Navbar */
+.transition-navbar {
+  transition: all 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-nav-item {
+  transition: color 400ms cubic-bezier(0.16, 1, 0.3, 1),
+              font-size 400ms cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 400ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 400ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}

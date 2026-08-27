@@ -47,10 +47,26 @@ export const BackgroundVideo: React.FC = () => {
     }
   };
 
+  // Autoplay dark mode video on mobile devices
+  useEffect(() => {
+    const vDark = videoDarkRef.current;
+    if (!vDark) return;
+
+    if (isMobile) {
+      if (theme === 'dark') {
+        vDark.play().catch(() => {});
+      } else {
+        vDark.pause();
+      }
+    } else {
+      vDark.pause();
+    }
+  }, [isMobile, theme]);
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Only scrub in Dark Mode
-      if (theme !== 'dark') return;
+      // Only scrub in Dark Mode on Desktop
+      if (theme !== 'dark' || isMobile) return;
 
       const vDark = videoDarkRef.current;
       if (!vDark || !vDark.duration || isNaN(vDark.duration)) return;
@@ -84,10 +100,10 @@ export const BackgroundVideo: React.FC = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [theme]);
+  }, [theme, isMobile]);
 
   const handleLoadedMetadataDark = () => {
-    if (videoDarkRef.current) {
+    if (videoDarkRef.current && !isMobile) {
       videoDarkRef.current.currentTime = 0;
       targetTimeDarkRef.current = 0;
     }
@@ -98,14 +114,16 @@ export const BackgroundVideo: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none select-none overflow-hidden">
-      {/* Dark Theme Video: Mouse motion scrubbing (Exact Original Logic) */}
+      {/* Dark Theme Video: AutoPlay & Loop on mobile, Mouse motion scrubbing on desktop */}
       <video
         ref={videoDarkRef}
         src={VIDEO_DARK}
         muted
         playsInline
+        autoPlay={isMobile}
+        loop={isMobile}
         preload="auto"
-        onSeeked={handleSeekedDark}
+        onSeeked={!isMobile ? handleSeekedDark : undefined}
         onLoadedMetadata={handleLoadedMetadataDark}
         style={{
           position: 'absolute',

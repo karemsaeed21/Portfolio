@@ -1,12 +1,23 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 
 const SENSITIVITY = 0.8;
 const VIDEO_DARK = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4";
 const VIDEO_LIGHT = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260508_215831_c6a8989c-d716-4d8d-8745-e972a2eec711.mp4";
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handler, { passive: true });
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return isMobile;
+};
+
 export const BackgroundVideo: React.FC = () => {
   const { theme } = useTheme();
+  const isMobile = useIsMobile();
 
   const videoDarkRef = useRef<HTMLVideoElement | null>(null);
   const videoLightRef = useRef<HTMLVideoElement | null>(null);
@@ -82,6 +93,9 @@ export const BackgroundVideo: React.FC = () => {
     }
   };
 
+  // Responsive object position: center on mobile, offset right on desktop
+  const objectPos = isMobile ? 'center center' : '70% center';
+
   return (
     <div className="fixed inset-0 z-0 pointer-events-none select-none overflow-hidden">
       {/* Dark Theme Video: Mouse motion scrubbing (Exact Original Logic) */}
@@ -99,7 +113,7 @@ export const BackgroundVideo: React.FC = () => {
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          objectPosition: '70% center',
+          objectPosition: objectPos,
           opacity: theme === 'dark' ? 1 : 0,
           transform: theme === 'dark' ? 'scale(1)' : 'scale(1.03)',
           transition: 'opacity 1s ease-in-out, transform 1s ease-in-out',
@@ -121,7 +135,7 @@ export const BackgroundVideo: React.FC = () => {
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          objectPosition: '70% center',
+          objectPosition: objectPos,
           opacity: theme === 'light' ? 1 : 0,
           transform: theme === 'light' ? 'scale(1)' : 'scale(1.03)',
           transition: 'opacity 1s ease-in-out, transform 1s ease-in-out',
